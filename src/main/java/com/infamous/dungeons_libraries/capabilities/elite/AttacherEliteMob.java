@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -21,12 +22,12 @@ public class AttacherEliteMob {
     private static class EliteMobProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
         public static final ResourceLocation IDENTIFIER = new ResourceLocation(MODID, "elite_mob");
-        private final BuiltInEnchantments backend = new BuiltInEnchantments();
-        private final LazyOptional<BuiltInEnchantments> optionalData = LazyOptional.of(() -> backend);
+        private final EliteMob backend = new EliteMob();
+        private final LazyOptional<EliteMob> optionalData = LazyOptional.of(() -> backend);
 
         @Override
         public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
-            return ModCapabilities.BUILT_IN_ENCHANTMENTS_CAPABILITY.orEmpty(cap, this.optionalData);
+            return ModCapabilities.ELITE_MOB_CAPABILITY.orEmpty(cap, this.optionalData);
         }
 
         @Override
@@ -41,7 +42,7 @@ public class AttacherEliteMob {
     }
 
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof LivingEntity) {
+        if (event.getObject() instanceof Mob) {
             final EliteMobProvider provider = new EliteMobProvider();
             event.addCapability(EliteMobProvider.IDENTIFIER, provider);
         }
