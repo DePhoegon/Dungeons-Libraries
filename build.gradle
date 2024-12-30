@@ -22,8 +22,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 version = "${mc_version}-${mod_version}"
-group = 'com.infamous.dungeons_libraries' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "${modid}"
+group = "${group_id}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "${mod_id}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17) //Gradle 7+ & FG v5.1+ are compatible with JDK 16 but for minecraft versions below 1.17 we have to target Java 8
 
@@ -45,7 +45,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            arg "-mixin.config=${modid}.mixins.json"
+            arg "-mixin.config=${mod_id}.mixins.json"
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
@@ -156,11 +156,11 @@ jar {
     manifest {
         attributes([
                 "Specification-Title"     : "Dungeons Libraries",
-                "Specification-Vendor"    : "Infamous Mods",
+                "Specification-Vendor"    : "DePhoegon Inc",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "Infamous Mods",
+                "Implementation-Vendor"   : "DePhoegon Inc",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConfigs"            : "dungeons_libraries.mixins.json"
         ])
